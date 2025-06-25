@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Portfolio Summary -->
+    <TextView
+        android:id="@+id/portfolioSummary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Portfolio Value: $5000"
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/portfolioGrowth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Growth: +$500 (+10%)"
+        android:textSize="18sp"
+        android:layout_below="@id/portfolioSummary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <!-- Portfolio Growth Chart -->
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/portfolioChart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/portfolioGrowth"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Button to Add Investment -->
+    <Button
+        android:id="@+id/addInvestmentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Investment"
+        android:layout_below="@id/portfolioChart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Button to View Watchlist -->
+    <Button
+        android:id="@+id/viewWatchlistButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Watchlist"
+        android:layout_below="@id/addInvestmentButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_below="@id/viewWatchlistButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>
