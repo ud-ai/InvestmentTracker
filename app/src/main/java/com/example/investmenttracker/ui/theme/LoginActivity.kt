@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.example.investmenttracker.databinding.ActivityLoginBinding
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Patterns
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,10 +39,30 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            var valid = true
+            if (email.isEmpty()) {
+                binding.etEmailLayout.error = null
+                binding.etPasswordLayout.error = null
+                binding.etEmailLayout.error = "Email is required"
+                valid = false
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.etEmailLayout.error = "Enter a valid email"
+                valid = false
+            } else {
+                binding.etEmailLayout.error = null
             }
+
+            if (password.isEmpty()) {
+                binding.etPasswordLayout.error = "Password is required"
+                valid = false
+            } else if (password.length < 6) {
+                binding.etPasswordLayout.error = "Password must be at least 6 characters"
+                valid = false
+            } else {
+                binding.etPasswordLayout.error = null
+            }
+
+            if (!valid) return@setOnClickListener
 
             // Show loading state
             binding.btnLogin.isEnabled = false
@@ -55,11 +78,26 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(Intent(this, Dashboard::class.java))
                         finish()
                     } else {
-                        Toast.makeText(this, "Login failed: ${task.exception?.message}", 
-                            Toast.LENGTH_SHORT).show()
+                        binding.etPasswordLayout.error = "Login failed: ${task.exception?.message}"
                     }
                 }
         }
+
+        // Clear errors on input change
+        binding.etEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.etEmailLayout.error = null
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.etPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.etPasswordLayout.error = null
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         binding.tvSignup.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
@@ -75,4 +113,6 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
+}
+
 }
